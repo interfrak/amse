@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -203,21 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void ajoutListe(Widget w) {
     listeMedia.add(w);
-    /*if (_controller != null)
-      _controller.animateToPage(
-        1,
-        curve: Curves.easeIn,
-        duration: Duration(seconds: 1),
-      );*/
   }
-
-  /*callback() {
-    setState(() {
-      listeMedia.add(Container(
-        color: Colors.blue,
-      ));
-    });
-  }*/
 
   void allerA(int page) {
     _controller.animateToPage(
@@ -247,12 +234,99 @@ class IconeMedia extends InkWell {
             ),
           ),
           onTap: () {
-            liste.add(Container(
+            /*liste.add(Container(
               color: Colors.blue,
+            ));*/
+            liste.add(new Film(
+              titre: "Casino Royale",
+              dateSortie: "2006",
+              acteurs: "Daniel Graig/ Eva Green",
+              realisateur: "Martin Campbell",
+              genre: "Action",
+              source: "images/Film/casino_royale.jpg",
             ));
+            sleep(const Duration(milliseconds: 5));
             _controller.animateToPage(1,
                 curve: Curves.easeIn, duration: Duration(seconds: 1));
           },
+        );
+}
+
+class Film extends Ink {
+  String titre;
+  String dateSortie;
+  String acteurs;
+  String prix;
+  String realisateur;
+  String genre;
+
+  Film(
+      {Key key,
+      String titre,
+      String dateSortie,
+      String acteurs,
+      String prix,
+      String realisateur,
+      String genre,
+      String source})
+      : super(
+          child: Card(
+              child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(source),
+                  fit: BoxFit.fill,
+                  alignment: Alignment.topCenter,
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.6), BlendMode.dstATop)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(titre,
+                    style: TextStyle(color: Colors.white, fontSize: 45)),
+                Container(
+                  padding: EdgeInsets.only(top: 60, bottom: 10),
+                  child: Text(
+                    "Date de sortie : $dateSortie",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    "Acteurs : $acteurs",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text("Réalisateur : $realisateur",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text("Genre : $genre",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+          )),
         );
 }
 
