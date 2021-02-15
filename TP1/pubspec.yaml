@@ -57,8 +57,29 @@ flutter:
     - images/Media/journaux.jpg
     - images/Media/sport.jpg
     - images/Film/casino_royale.jpg
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    - images/Film/E_T.jpg
+    - images/Film/hibernatus.jpg
+    - images/Film/le_loup_de_wallstreet.png
+    - images/Film/le_pyjama_raye.jpg
+    - images/Film/oss117_2.jpg
+    - images/Film/star_wars_3.jpg
+    - images/Film/au_nom_de_la_rose.jpg
+    - images/bd/asterix_et_obelix.jpg
+    - images/bd/gaston.jpg
+    - images/bd/l_ambulance_13.jpg
+    - images/bd/le_scorpion.jpg
+    - images/bd/le_temple_du_soleil.jpg
+    - images/bd/le_vol_du_corbeau.jpg
+    - images/bd/lucky_luke.jpg
+    - images/bd/magasin_général.jpg
+    - images/journaux/le_monde.jpg
+    - images/journaux/courrier_international.jpg
+    - images/journaux/marianne.jpg
+    - images/journaux/liberation.jpg
+    - images/journaux/l_obs.jpg
+    - images/journaux/le_point.jpg
+    - images/journaux/le_figaro.png
+    - images/journaux/l_express.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
