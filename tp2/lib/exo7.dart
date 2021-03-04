@@ -82,6 +82,8 @@ class TaquinState extends State<Taquin> {
   int nbCoup;
   List<int> listeCoup = [];
 
+  int nbCoupGagnat = 0;
+
   @override
   void initState() {
     listeTile.clear();
@@ -176,6 +178,13 @@ class TaquinState extends State<Taquin> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  padding: EdgeInsets.only(right: 40),
+                  child: Text(
+                    '$nbCoupGagnat',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 IconButton(
                     icon: Icon(Icons.remove),
                     onPressed: () {
@@ -220,7 +229,21 @@ class TaquinState extends State<Taquin> {
                           }
                         });
                       }
-                    })
+                    }),
+                IconButton(
+                  icon: Icon(Icons.play_for_work),
+                  onPressed: () {
+                    if (!play && (nbTuileLigne == 3 || nbTuileLigne == 4)) {
+                      playIcon = Icon(Icons.stop);
+                      play = true;
+                      //mélange prédéfini
+                      melangePredefini();
+                      nbCoupGagnat = nombreCoupGagnant();
+                      nbCoup = 0;
+                    }
+                  },
+                  padding: EdgeInsets.only(left: 40),
+                )
               ],
             ))
       ]),
@@ -286,13 +309,6 @@ class TaquinState extends State<Taquin> {
             Alignment(l.elementAt(0), l.elementAt(1)), i + 1));
       }
     }
-    for (Tile t in listeTile) {
-      int num = t.numVerif;
-      int n = t.numero;
-      print('numero $n');
-      print('numVerif $num ');
-      print('');
-    }
   }
 
   List<int> generationIndice(int index, int nbLigne) {
@@ -320,18 +336,10 @@ class TaquinState extends State<Taquin> {
   }
 
   void melangerTaquin(int nombreMelange, int nbLigne) {
-    print('initialVide $tileVide');
     for (int k = 0; k < nombreMelange; k++) {
       int i = generationIndice(tileVide, nbLigne)[0];
       int j = generationIndice(tileVide, nbLigne)[1];
       deplacementAleatoire(determinationPosition(i, j, nbLigne), i, j, nbLigne);
-    }
-    for (Tile t in listeTile) {
-      int num = t.numVerif;
-      int n = t.numero;
-      print('numero $n');
-      print('numVerif $num ');
-      print('');
     }
   }
 
@@ -645,33 +653,62 @@ class TaquinState extends State<Taquin> {
     }
   }
 
-  Future<void> nombreCoupGagnant() async {
+  int nombreCoupGagnant() {
     List<List<int>> g = List.generate(nbTuileLigne, (i) => List(nbTuileLigne));
     for (int i = 0; i < listeTile.length; i++) {
       List<int> l = generationIndice(i, nbTuileLigne);
       g[l[0]][l[1]] = listeTile.elementAt(i).numVerif;
-      int num = listeTile.elementAt(i).numVerif;
-      int n = listeTile.elementAt(i).numero;
-      print('numero $n');
-      print('numVerif $num ');
     }
     Grille grille = new Grille(g);
-    print(grille.toString());
-    for (Tile t in listeTile) {
-      print(t.numVerif);
-    }
     Solveur solver = new Solveur();
-    print("solveur");
-    Noeud astarNoeud = solver.algoAstar(grille);
-    print('noeud');
-    int nbCoupGagant = astarNoeud.Successeurs().length;
-    print('nbCoupGagnat $nbCoupGagant');
 
-    for (Grille deux in solver.cheminComplet(astarNoeud)) {
-      print(deux.toString());
-      print('');
-    }
+    Noeud astarNoeud = solver.algoAstar(grille);
+
+    int nbCoupGagant = astarNoeud.Successeurs().length;
     return nbCoupGagant;
+  }
+
+  //Permet de mélanger dans unn ordre bien défini, et d'être déclenché avec le bouton en bas à droite
+  //Normalement fonctionne en plusieurs minutes
+  melangePredefini() {
+    if (nbTuileLigne == 3) {
+      listeTile.clear();
+
+      List l = generationCoordonnee(6, nbTuileLigne);
+      listeTile.add(Tile('6', false, 6, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 7));
+
+      l = generationCoordonnee(7, nbTuileLigne);
+      listeTile.add(Tile('7', false, 7, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 8));
+
+      l = generationCoordonnee(4, nbTuileLigne);
+      listeTile.add(Tile('5', false, 4, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 5));
+
+      l = generationCoordonnee(3, nbTuileLigne);
+      listeTile.add(Tile('3', false, 3, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 4));
+
+      listeTile
+          .add(Tile('Vide0', true, 8, url, nbTuileLigne, Alignment(0, 0), 0));
+
+      l = generationCoordonnee(1, nbTuileLigne);
+      listeTile.add(Tile('1', false, 1, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 2));
+      //
+      l = generationCoordonnee(2, nbTuileLigne);
+      listeTile.add(Tile('2', false, 2, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 3));
+
+      l = generationCoordonnee(5, nbTuileLigne);
+      listeTile.add(Tile('5', false, 5, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 6));
+
+      l = generationCoordonnee(0, nbTuileLigne);
+      listeTile.add(Tile('0', false, 0, url, nbTuileLigne,
+          Alignment(l.elementAt(0), l.elementAt(1)), 1));
+    } else if (nbTuileLigne == 4) {}
   }
 }
 
