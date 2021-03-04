@@ -233,7 +233,7 @@ class TaquinState extends State<Taquin> {
                 IconButton(
                   icon: Icon(Icons.play_for_work),
                   onPressed: () {
-                    if (!play && (nbTuileLigne == 3 || nbTuileLigne == 4)) {
+                    if (!play && nbTuileLigne == 3) {
                       playIcon = Icon(Icons.stop);
                       play = true;
                       //mélange prédéfini
